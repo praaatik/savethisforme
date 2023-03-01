@@ -3,16 +3,11 @@ import './App.css'
 import { useGetCollectionByIdQuery, useGetCollectionsQuery } from './store'
 
 function App() {
-  const { data: collectionsData, isLoading, error } = useGetCollectionsQuery()
-  const { data: collectionData } = useGetCollectionByIdQuery(61)
+  const { data: collectionsData, isLoading, error, isError } = useGetCollectionsQuery()
 
   useEffect(() => {
     console.log(collectionsData)
   }, [collectionsData])
-
-  useEffect(() => {
-    console.log(collectionData)
-  }, [collectionData])
 
   return (
     <div>

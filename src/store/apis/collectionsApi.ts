@@ -1,9 +1,6 @@
-import {
-  createApi,
-  fetchBaseQuery,
-  fakeBaseQuery,
-} from "@reduxjs/toolkit/query/react";
-import { createClient } from "@supabase/supabase-js";
+import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createClient, PostgrestError } from "@supabase/supabase-js";
+import ICollection from "../../utils/interfaces/ICollection.interface";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -15,10 +12,16 @@ const collectionsApi = createApi({
   baseQuery: fakeBaseQuery(),
   endpoints(builder) {
     return {
-      getCollections: builder.query<any, void>({
-        async queryFn() {
-          const data = await supabase.from("collection").select();
-          return { data };
+      getCollections: builder.query<ICollection[] | PostgrestError, void>({
+        async queryFn(arg) {
+          const { data, error } = await supabase.from("collections").select();
+
+          if (data) {
+            const collections: ICollection[] = data as ICollection[];
+            return { data: collections };
+          } else {
+            return { error };
+          }
         },
       }),
       getCollectionById: builder.query<any, number>({
