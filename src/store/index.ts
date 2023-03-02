@@ -17,4 +17,5 @@ export {
   useGetCollectionsByUserQuery,
   useUpdateCollectionNameMutation,
   useDeleteCollectionMutation,
+  useCreateCollectionMutation,
 } from "./apis/collectionsApi";

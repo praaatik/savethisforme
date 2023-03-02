@@ -1,6 +1,7 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createClient, PostgrestError } from "@supabase/supabase-js";
 import ICollection from "../../utils/interfaces/ICollection.interface";
+import IInsertCollection from "../../utils/interfaces/IInsertCollection.interface";
 import IUpdateCollectionName from "../../utils/interfaces/IUpdateCollectionName.interface";
 
 const supabase = createClient(
@@ -81,6 +82,23 @@ const collectionsApi = createApi({
           }
         },
       }),
+      createCollection: builder.mutation<
+        ICollection | PostgrestError,
+        IInsertCollection
+      >({
+        invalidatesTags: ["collection"],
+        async queryFn(arg) {
+          const { error, data } = await supabase
+            .from("collection")
+            .insert({ collectionName: arg.collectionName, userId: arg.userId });
+          if (data) {
+            const newCollection = data[0] as ICollection;
+            return { data: newCollection };
+          } else {
+            return { error };
+          }
+        },
+      }),
     };
   },
 });
@@ -90,11 +108,6 @@ export const {
   useGetCollectionsByUserQuery,
   useUpdateCollectionNameMutation,
   useDeleteCollectionMutation,
+  useCreateCollectionMutation,
 } = collectionsApi;
 export { collectionsApi };
-
-//getCollectionByUserId
-//updateCollectionName
-//deleteCollection
-
-//createCollection

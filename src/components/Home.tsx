@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useUserData from '../hooks/get-user';
-import { useGetCollectionsByUserQuery, useUpdateCollectionNameMutation, useDeleteCollectionMutation } from '../store';
+import { useGetCollectionsByUserQuery, useUpdateCollectionNameMutation, useDeleteCollectionMutation, useCreateCollectionMutation } from '../store';
 
 export default function Home() {
     const { error, user } = useUserData()
@@ -11,6 +11,7 @@ export default function Home() {
     const { data } = useGetCollectionsByUserQuery(userId)
     // const [updateCollection, result] = useUpdateCollectionNameMutation()
     const [deleteCollection, result] = useDeleteCollectionMutation()
+    const [createCollection, result_2] = useCreateCollectionMutation()
 
     useEffect(() => {
         if (error?.status === 401) {
@@ -18,16 +19,20 @@ export default function Home() {
         }
     }, [error, user,])
 
-    const handleOnClick = () => {
-        // updateCollection({ collectionId: 45, updatedCollectionName: "kitty collection only" })
-        deleteCollection(44)
+    const handleOnDelete = () => {
+        deleteCollection(65)
+    }
+
+    const handleOnAdd = () => {
+        createCollection({ collectionName: "kitty collection new", userId })
     }
 
 
     return (
         <div>
             <div>Home</div>
-            <button onClick={handleOnClick}>Delete!</button>
+            <button onClick={handleOnDelete}>Delete!</button>
+            <button onClick={handleOnAdd}>Add new collection!</button>
         </div>
     )
 }
