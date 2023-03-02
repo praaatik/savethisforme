@@ -15,4 +15,5 @@ setupListeners(store.dispatch);
 export {
   useGetCollectionsQuery,
   useGetCollectionsByUserQuery,
+  useUpdateCollectionNameMutation,
 } from "./apis/collectionsApi";
