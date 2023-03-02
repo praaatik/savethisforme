@@ -1,16 +1,12 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createClient, PostgrestError } from "@supabase/supabase-js";
 import ICollection from "../../utils/interfaces/ICollection.interface";
+import IUpdateCollectionName from "../../utils/interfaces/IUpdateCollectionName.interface";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_KEY
 );
-
-interface IUpdateCollectionName {
-  collectionId: number;
-  updatedCollectionName: string;
-}
 
 const collectionsApi = createApi({
   reducerPath: "collections",
@@ -42,7 +38,6 @@ const collectionsApi = createApi({
             .select("*")
             .eq("userId", arg);
           if (data) {
-            console.log(data);
             const collections: ICollection[] = data as ICollection[];
             return { data: collections };
           } else {
@@ -70,6 +65,22 @@ const collectionsApi = createApi({
           }
         },
       }),
+      deleteCollection: builder.mutation<ICollection | PostgrestError, number>({
+        invalidatesTags: ["collection"],
+        async queryFn(arg) {
+          const { error, data } = await supabase
+            .from("collection")
+            .delete()
+            .eq("collectionId", arg)
+            .select();
+          if (data) {
+            const deletedCollection: ICollection = data[0] as ICollection;
+            return { data: deletedCollection };
+          } else {
+            return { error };
+          }
+        },
+      }),
     };
   },
 });
@@ -78,11 +89,12 @@ export const {
   useGetCollectionsQuery,
   useGetCollectionsByUserQuery,
   useUpdateCollectionNameMutation,
+  useDeleteCollectionMutation,
 } = collectionsApi;
 export { collectionsApi };
 
 //getCollectionByUserId
 //updateCollectionName
-
 //deleteCollection
+
 //createCollection
