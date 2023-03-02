@@ -24,19 +24,33 @@ const collectionsApi = createApi({
           }
         },
       }),
-      getCollectionById: builder.query<any, number>({
+      getCollectionsByUser: builder.query<
+        ICollection[] | PostgrestError,
+        string
+      >({
         async queryFn(arg) {
-          const data = await supabase
+          const { data, error } = await supabase
             .from("collection")
             .select("*")
-            .eq("collectionId", arg);
-          return { data };
+            .eq("userId", arg);
+          if (data) {
+            console.log(data);
+            const collections: ICollection[] = data as ICollection[];
+            return { data: collections };
+          } else {
+            return { error };
+          }
         },
       }),
     };
   },
 });
 
-export const { useGetCollectionsQuery, useGetCollectionByIdQuery } =
+export const { useGetCollectionsQuery, useGetCollectionsByUserQuery } =
   collectionsApi;
 export { collectionsApi };
+
+//getCollectionByUserId
+//updateCollectionName
+//deleteCollection
+//createCollection

@@ -14,5 +14,5 @@ export const store = configureStore({
 setupListeners(store.dispatch);
 export {
   useGetCollectionsQuery,
-  useGetCollectionByIdQuery,
+  useGetCollectionsByUserQuery,
 } from "./apis/collectionsApi";
