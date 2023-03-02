@@ -1,17 +1,19 @@
-import { useEffect } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { useGetCollectionByIdQuery, useGetCollectionsQuery } from './store'
+import Home from './components/Home'
+import Login from './components/Login'
+
+
 
 function App() {
-  const { data: collectionsData, isLoading, error, isError } = useGetCollectionsQuery()
-
-  useEffect(() => {
-    console.log(collectionsData)
-  }, [collectionsData])
-
   return (
     <div>
-      <h1>Hello</h1>
+      <Router>
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </Router>
     </div>
   )
 }
