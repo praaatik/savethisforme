@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useUserData from '../hooks/get-user';
-import { useDeleteBookmarkMutation, useGetBookmarksByCollectionQuery } from '../store';
+import { useToggleFavoriteBookmarkMutation, useGetAllBookmarksForUserQuery } from '../store';
 
 export default function Home() {
     const { error, user } = useUserData()
     const navigate = useNavigate()
     const userId = user ? user?.id : ""
 
-    // const { data } = useGetAllBookmarksByUserQuery()
+    const { } = useGetAllBookmarksForUserQuery(userId)
     // const { data } = useGetBookmarksByCollectionQuery(userId)
-    const [deleteBookmark, result] = useDeleteBookmarkMutation()
+    const [toggleBookmarkFavorite, result] = useToggleFavoriteBookmarkMutation()
 
     useEffect(() => {
         if (error?.status === 401) {
@@ -22,7 +22,11 @@ export default function Home() {
 
     const handleOnDelete = () => {
         // deleteCollection(65)
-        deleteBookmark(1)
+        // toggleBookmarkFavorite({ bookmarkId: "2", isFavorite: false })
+    }
+
+    const handleToggle = () => {
+        toggleBookmarkFavorite({ bookmarkId: "2", isFavorite: false })
     }
 
     const handleOnAdd = () => {
@@ -35,6 +39,7 @@ export default function Home() {
             <div>Home</div>
             <button onClick={handleOnDelete}>Delete!</button>
             <button onClick={handleOnAdd}>Add new collection!</button>
+            <button onClick={handleToggle}>Toggle!</button>
         </div>
     )
 }

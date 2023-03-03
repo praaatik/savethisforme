@@ -10,6 +10,11 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_KEY
 );
 
+interface IToggleBookmark {
+  isFavorite: boolean;
+  bookmarkId: string;
+}
+
 const api = createApi({
   reducerPath: "data",
   baseQuery: fakeBaseQuery(),
@@ -177,6 +182,19 @@ const api = createApi({
           }
         },
       }),
+      toggleFavoriteBookmark: builder.mutation<boolean, IToggleBookmark>({
+        invalidatesTags: ["bookmark"],
+        async queryFn(arg) {
+          const { data, error } = await supabase
+            .from("bookmark")
+            .update({ isFavorite: !arg.isFavorite })
+            .eq("bookmarkId", arg.bookmarkId)
+            .select();
+
+          console.log(data);
+          return { data: false };
+        },
+      }),
     };
   },
 });
@@ -191,14 +209,15 @@ export const {
   useGetAllBookmarksForUserQuery,
   useGetBookmarksByCollectionQuery,
   useDeleteBookmarkMutation,
+  useToggleFavoriteBookmarkMutation,
 } = api;
 export { api };
 
 //getAllBookmarksForUser
 //getBookmarks
 //getBookmarksByCollection
-
 //deleteBookmark
 //toggleFavoriteBookmark
+
 //createBookmark
 //updateBookmark (can update tags, url)
