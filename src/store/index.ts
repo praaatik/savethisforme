@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { collectionsApi } from "./apis/collectionsApi";
+import { api } from "./apis/api";
 
 export const store = configureStore({
   reducer: {
-    [collectionsApi.reducerPath]: collectionsApi.reducer,
+    [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(collectionsApi.middleware);
+    return getDefaultMiddleware().concat(api.middleware);
   },
 });
 
@@ -18,4 +18,8 @@ export {
   useUpdateCollectionNameMutation,
   useDeleteCollectionMutation,
   useCreateCollectionMutation,
-} from "./apis/collectionsApi";
+  useGetBookmarksQuery,
+  useGetAllBookmarksForUserQuery,
+  useGetBookmarksByCollectionQuery,
+  useDeleteBookmarkMutation,
+} from "./apis/api";

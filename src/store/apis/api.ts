@@ -1,5 +1,6 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createClient, PostgrestError } from "@supabase/supabase-js";
+import IBookmark from "../../utils/interfaces/IBookmark.interface";
 import ICollection from "../../utils/interfaces/ICollection.interface";
 import IInsertCollection from "../../utils/interfaces/IInsertCollection.interface";
 import IUpdateCollectionName from "../../utils/interfaces/IUpdateCollectionName.interface";
@@ -9,16 +10,16 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_KEY
 );
 
-const collectionsApi = createApi({
-  reducerPath: "collections",
+const api = createApi({
+  reducerPath: "data",
   baseQuery: fakeBaseQuery(),
-  tagTypes: ["collection"],
+  tagTypes: ["collection", "bookmark"],
   endpoints(builder) {
     return {
       getCollections: builder.query<ICollection[] | PostgrestError, void>({
         providesTags: ["collection"],
         async queryFn(arg) {
-          const { data, error } = await supabase.from("collections").select();
+          const { data, error } = await supabase.from("collection").select();
 
           if (data) {
             const collections: ICollection[] = data as ICollection[];
@@ -99,6 +100,83 @@ const collectionsApi = createApi({
           }
         },
       }),
+      getBookmarks: builder.query<IBookmark[] | PostgrestError, void>({
+        providesTags: ["bookmark"],
+        async queryFn(arg) {
+          const { data, error } = await supabase.from("bookmark").select();
+
+          if (data) {
+            const bookmarks: IBookmark[] = data as IBookmark[];
+            return { data: bookmarks };
+          } else {
+            return { error };
+          }
+        },
+      }),
+      getAllBookmarksForUser: builder.query<
+        IBookmark[] | PostgrestError,
+        string
+      >({
+        providesTags: ["bookmark"],
+        async queryFn(arg) {
+          const { data, error } = await supabase
+            .from("bookmark")
+            .select("*")
+            .eq("userId", arg);
+          if (data) {
+            const bookmarks: IBookmark[] = data as IBookmark[];
+            return { data: bookmarks };
+          } else {
+            return { error };
+          }
+        },
+      }),
+      getBookmarksByCollection: builder.query<any, string>({
+        providesTags: ["bookmark", "collection"],
+        async queryFn(arg) {
+          const { data, error } = await supabase
+            .from("collection")
+            .select(
+              `
+          collectionId,
+          collectionName,
+          bookmark(
+            bookmarkId,
+            bookmarkURL,
+            isFavorite,
+            tags
+          )
+          `
+            )
+            .eq("userId", arg);
+
+          return { data };
+
+          // if (data) {
+          //   const bookmarks: IBookmark[] = data as IBookmark[];
+          //   return { data: bookmarks };
+          // } else {
+          //   return { error };
+          // }
+        },
+      }),
+
+      deleteBookmark: builder.mutation<IBookmark | PostgrestError, number>({
+        invalidatesTags: ["bookmark"],
+        async queryFn(arg) {
+          const { error, data } = await supabase
+            .from("bookmark")
+            .delete()
+            .eq("bookmarkId", arg)
+            .select();
+          if (data) {
+            const deletedBookmark: IBookmark = data[0] as IBookmark;
+            return { data: deletedBookmark };
+          } else {
+            return { error };
+          }
+        },
+      }),
     };
   },
 });
@@ -109,5 +187,18 @@ export const {
   useUpdateCollectionNameMutation,
   useDeleteCollectionMutation,
   useCreateCollectionMutation,
-} = collectionsApi;
-export { collectionsApi };
+  useGetBookmarksQuery,
+  useGetAllBookmarksForUserQuery,
+  useGetBookmarksByCollectionQuery,
+  useDeleteBookmarkMutation,
+} = api;
+export { api };
+
+//getAllBookmarksForUser
+//getBookmarks
+//getBookmarksByCollection
+
+//deleteBookmark
+//toggleFavoriteBookmark
+//createBookmark
+//updateBookmark (can update tags, url)
