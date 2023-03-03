@@ -23,4 +23,6 @@ export {
   useGetBookmarksByCollectionQuery,
   useDeleteBookmarkMutation,
   useToggleFavoriteBookmarkMutation,
+  useCreateBookmarkMutation,
+  useUpdateBookmarkTagsMutation,
 } from "./apis/api";

@@ -2,7 +2,9 @@ import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createClient, PostgrestError } from "@supabase/supabase-js";
 import IBookmark from "../../utils/interfaces/IBookmark.interface";
 import ICollection from "../../utils/interfaces/ICollection.interface";
+import IInsertBookmark from "../../utils/interfaces/IInsertBookmark.interface";
 import IInsertCollection from "../../utils/interfaces/IInsertCollection.interface";
+import IToggleBookmark from "../../utils/interfaces/IToggleBookmark.interface";
 import IUpdateCollectionName from "../../utils/interfaces/IUpdateCollectionName.interface";
 
 const supabase = createClient(
@@ -10,9 +12,10 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_KEY
 );
 
-interface IToggleBookmark {
-  isFavorite: boolean;
-  bookmarkId: string;
+interface IUpdateBookmark {
+  bookmarkURL?: string;
+  tags?: string[];
+  bookmarkId: number;
 }
 
 const api = createApi({
@@ -191,8 +194,48 @@ const api = createApi({
             .eq("bookmarkId", arg.bookmarkId)
             .select();
 
-          console.log(data);
-          return { data: false };
+          return { data: true };
+        },
+      }),
+      createBookmark: builder.mutation<
+        IBookmark | PostgrestError,
+        IInsertBookmark
+      >({
+        invalidatesTags: ["bookmark", "collection"],
+        async queryFn(arg) {
+          const { data, error } = await supabase
+            .from("bookmark")
+            .insert({
+              bookmarkURL: arg.bookmarkURL,
+              userId: arg.userId,
+              collectionId: arg.collectionId,
+              isFavorite: arg.isFavorite,
+              tags: arg.tags,
+            })
+            .select();
+          if (data) {
+            const newBookmark: IBookmark = data[0] as IBookmark;
+            return { data: newBookmark };
+          } else {
+            return { error };
+          }
+        },
+      }),
+      updateBookmarkTags: builder.mutation<null, IUpdateBookmark>({
+        async queryFn(arg) {
+          if (arg.tags) {
+            await supabase
+              .from("bookmark")
+              .update({ tags: arg.tags })
+              .eq("bookmarkId", arg.bookmarkId);
+          }
+          if (arg.bookmarkURL) {
+            await supabase
+              .from("bookmark")
+              .update({ bookmarkURL: arg.bookmarkURL })
+              .eq("bookmarkId", arg.bookmarkId);
+          }
+          return { data: null };
         },
       }),
     };
@@ -210,6 +253,8 @@ export const {
   useGetBookmarksByCollectionQuery,
   useDeleteBookmarkMutation,
   useToggleFavoriteBookmarkMutation,
+  useCreateBookmarkMutation,
+  useUpdateBookmarkTagsMutation,
 } = api;
 export { api };
 
@@ -218,6 +263,6 @@ export { api };
 //getBookmarksByCollection
 //deleteBookmark
 //toggleFavoriteBookmark
-
 //createBookmark
+
 //updateBookmark (can update tags, url)
