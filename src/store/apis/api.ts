@@ -5,18 +5,13 @@ import ICollection from "../../utils/interfaces/ICollection.interface";
 import IInsertBookmark from "../../utils/interfaces/IInsertBookmark.interface";
 import IInsertCollection from "../../utils/interfaces/IInsertCollection.interface";
 import IToggleBookmark from "../../utils/interfaces/IToggleBookmark.interface";
+import IUpdateBookmark from "../../utils/interfaces/IUpdateBookmark.interface";
 import IUpdateCollectionName from "../../utils/interfaces/IUpdateCollectionName.interface";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_KEY
 );
-
-interface IUpdateBookmark {
-  bookmarkURL?: string;
-  tags?: string[];
-  bookmarkId: number;
-}
 
 const api = createApi({
   reducerPath: "data",
@@ -37,22 +32,17 @@ const api = createApi({
           }
         },
       }),
-      getCollectionsByUser: builder.query<
-        ICollection[] | PostgrestError,
-        string
-      >({
+      getCollectionsByUser: builder.query<ICollection[], string>({
         providesTags: ["collection"],
         async queryFn(arg) {
           const { data, error } = await supabase
             .from("collection")
             .select("*")
             .eq("userId", arg);
-          if (data) {
-            const collections: ICollection[] = data as ICollection[];
-            return { data: collections };
-          } else {
-            return { error };
-          }
+          // if (data) {
+          const collections: ICollection[] = data as ICollection[];
+          return { data: collections };
+          // }
         },
       }),
       updateCollectionName: builder.mutation<
@@ -76,7 +66,7 @@ const api = createApi({
         },
       }),
       deleteCollection: builder.mutation<ICollection | PostgrestError, number>({
-        invalidatesTags: ["collection"],
+        invalidatesTags: ["collection", "bookmark"],
         async queryFn(arg) {
           const { error, data } = await supabase
             .from("collection")
@@ -257,12 +247,3 @@ export const {
   useUpdateBookmarkTagsMutation,
 } = api;
 export { api };
-
-//getAllBookmarksForUser
-//getBookmarks
-//getBookmarksByCollection
-//deleteBookmark
-//toggleFavoriteBookmark
-//createBookmark
-
-//updateBookmark (can update tags, url)
