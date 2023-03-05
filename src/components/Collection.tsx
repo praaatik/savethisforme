@@ -11,8 +11,8 @@ interface Props {
 
 export default function Collection({ collectionToDeleteSet, handleDialogClickOpen, collection }: Props) {
     return (
-        <ListItem key={collection.collectionId} divider>
-            <ListItemButton>
+        <ListItem key={collection.collectionId} divider sx={{ maxWidth: "20rem", }} >
+            <ListItemButton sx={{ maxWidth: "10rem" }} >
                 <ListItemText primary={collection.collectionName} />
             </ListItemButton>
             <Tooltip title="Delete collection" placement="top">
