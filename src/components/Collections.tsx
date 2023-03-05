@@ -1,9 +1,20 @@
 import { AppBar, Box, CircularProgress, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled, Toolbar, Typography, useTheme, Button, useMediaQuery, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
-import { useState } from 'react'
+import { createContext, useState } from 'react'
 import useUserData from '../hooks/get-user'
 import { useDeleteCollectionMutation, useGetCollectionsByUserQuery } from '../store'
 import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CollectionDeleteDialog from './CollectionDeleteDialog';
+
+export interface ICollectionDeleteDialogContext {
+    collectionToDelete: number,
+    collectionToDeleteSet: React.Dispatch<React.SetStateAction<number>>
+    openDialog: boolean,
+    openDialogSet: React.Dispatch<React.SetStateAction<boolean>>
+    handleDialogClickClose(confirmDelete: boolean): void
+}
+
+export const CollectionDeleteDialogContext = createContext<ICollectionDeleteDialogContext | null>(null)
 
 export default function Collections() {
     const { user } = useUserData()
@@ -25,7 +36,7 @@ export default function Collections() {
         openDialogSet(true);
     };
 
-    const handleDialogClickClose = (confirmDelete: boolean) => {
+    function handleDialogClickClose(confirmDelete: boolean) {
         if (confirmDelete) {
             handleDeleteCollection()
         }
@@ -38,34 +49,11 @@ export default function Collections() {
     }
 
     const container = window !== undefined ? () => window.document.body : undefined;
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     const drawer = (
         <div className="text-center">
-            <Dialog
-                fullScreen={fullScreen}
-                open={openDialog}
-                onClose={() => { handleDialogClickClose(false) }}
-                aria-labelledby="delete-collection-confirmation-dialog"
-            >
-                <DialogTitle id="delete-collection-confirmation-dialog">
-                    {"Delete this collection?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        This will delete the collection and all the bookmarks associated with it. This action is irreversible. Click Confirm to proceed.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => { handleDialogClickClose(true) }} autoFocus variant='contained' color='error'>
-                        Confirm
-                    </Button>
-                    <Button onClick={() => { handleDialogClickClose(false) }} autoFocus variant='contained'>
-                        Cancel
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <CollectionDeleteDialog handleDialogClickClose={handleDialogClickClose} openDialog={openDialog} />
+
             <Typography variant="h6" sx={{ height: "10vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 Your Collections
             </Typography>
@@ -77,13 +65,14 @@ export default function Collections() {
                         <ListItemButton>
                             <ListItemText primary={collection.collectionName} />
                         </ListItemButton>
-                        <ListItemIcon>
+                        <ListItemText className="opacity-60 hover:opacity-100 cursor-pointer flex justify-center" >
                             <DeleteIcon onClick={() => {
                                 collectionToDeleteSet(collection.collectionId)
                                 handleDialogClickOpen()
                             }}
+                                className="cursor-pointer"
                             />
-                        </ListItemIcon>
+                        </ListItemText>
                     </ListItem>
                 ))}
                 <ListItemButton sx={{ bottom: 0, width: "100%", position: "sticky", backgroundColor: "gray" }}>
@@ -103,7 +92,6 @@ export default function Collections() {
 
     return (
         <div>
-
             <AppBar
                 position="fixed"
                 sx={{
