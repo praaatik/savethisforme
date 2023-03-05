@@ -5,6 +5,7 @@ import { useDeleteCollectionMutation, useGetCollectionsByUserQuery } from '../st
 import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CollectionDeleteDialog from './CollectionDeleteDialog';
+import Logout from './Logout';
 
 export interface ICollectionDeleteDialogContext {
     collectionToDelete: number,
@@ -75,17 +76,7 @@ export default function Collections() {
                         </ListItemText>
                     </ListItem>
                 ))}
-                <ListItemButton sx={{ bottom: 0, width: "100%", position: "sticky", backgroundColor: "gray" }}>
-                    <ListItemText
-                        primary="Logout"
-                        primaryTypographyProps={{
-                            fontSize: 15,
-                            fontWeight: 'medium',
-                            letterSpacing: 0,
-                            textAlign: "center"
-                        }}
-                    />
-                </ListItemButton>
+                <Logout />
             </List>
         </div>
     );
