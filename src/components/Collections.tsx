@@ -44,7 +44,7 @@ export default function Collections() {
         <div className="text-center">
             <DeleteCollectionDialog handleDialogClickClose={handleDialogClickClose} openDialog={openDialog} />
             <Typography variant="h6" sx={{ height: "10vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                Your Collections
+                Your collections
             </Typography>
             <Divider />
             <AddCollection userId={userId} />
