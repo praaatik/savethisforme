@@ -1,4 +1,4 @@
-import { CircularProgress, Divider, List, Typography, } from '@mui/material'
+import { Button, CircularProgress, Divider, List, Typography, } from '@mui/material'
 import { useState } from 'react'
 import { useDeleteCollectionMutation, useGetCollectionsByUserQuery } from '../store'
 import useUserData from '../hooks/get-user'
@@ -7,6 +7,7 @@ import Collection from './Collection';
 import DeleteCollectionDialog from './DeleteCollectionDialog';
 import Navbar from './Navbar';
 import BoxComponent from './BoxComponent';
+import AddCollection from './AddCollection';
 
 export default function Collections() {
     const { user } = useUserData()
@@ -46,6 +47,8 @@ export default function Collections() {
                 Your Collections
             </Typography>
             <Divider />
+            <AddCollection userId={userId} />
+
             <List sx={{ position: "relative", height: "90vh", overflowY: "scroll" }}>
                 {isLoading && <CircularProgress />}
                 {collections && collections.map((collection) => (
