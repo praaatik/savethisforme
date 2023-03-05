@@ -1,6 +1,5 @@
 import { LogoutOutlined } from '@mui/icons-material'
-import { ListItemButton, ListItemText, Tooltip } from '@mui/material'
-import React from 'react'
+import { Button, Tooltip } from '@mui/material'
 import { supabase } from '../utils/supabaseClient'
 
 export default function Logout() {
@@ -10,9 +9,9 @@ export default function Logout() {
 
     return (
         <Tooltip title="Logout" placement="top">
-            <ListItemButton divider sx={{ borderRadius: "10%", bottom: 0, width: "25%", position: "sticky", display: "flex", justifyContent: "center", margin: "auto", marginTop: "20%", backgroundColor: "skyblue", }} onClick={handleOnClick} >
+            <Button variant="contained" sx={{ bottom: 0, position: "sticky", margin: "auto", marginTop: "3%", }} onClick={handleOnClick} >
                 <LogoutOutlined />
-            </ListItemButton>
+            </Button>
         </Tooltip>
     )
 }

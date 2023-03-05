@@ -5,7 +5,7 @@ interface Props {
     handleDialogClickClose(confirmDelete: boolean): void
 }
 
-export default function CollectionDeleteDialog({ openDialog, handleDialogClickClose, }: Props) {
+export default function DeleteCollectionDialog({ openDialog, handleDialogClickClose, }: Props) {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
