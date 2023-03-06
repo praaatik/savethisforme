@@ -5,7 +5,7 @@ import Login from './components/Login'
 
 function App() {
   return (
-    <div className="bg-red-500">
+    <div >
       <Router>
         <Routes>
           <Route path="/home" element={<Home />} />

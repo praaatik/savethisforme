@@ -2,7 +2,6 @@ import { Button, CircularProgress, Divider, List, Typography, } from '@mui/mater
 import { useState } from 'react'
 import { useDeleteCollectionMutation, useGetCollectionsByUserQuery } from '../store'
 import useUserData from '../hooks/get-user'
-import Logout from './Logout';
 import Collection from './Collection';
 import DeleteCollectionDialog from './DeleteCollectionDialog';
 import Navbar from './Navbar';

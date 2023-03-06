@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useUserData from '../hooks/get-user';
 import { useToggleFavoriteBookmarkMutation, useGetAllBookmarksForUserQuery, useCreateBookmarkMutation, useUpdateBookmarkTagsMutation } from '../store';
+import Bookmarks from './Bookmarks';
 import Collections from './Collections';
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
 
     return (
         <div className="">
+            {/* <Bookmarks /> */}
             <Collections />
         </div>
     )

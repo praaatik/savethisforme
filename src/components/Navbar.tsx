@@ -10,7 +10,6 @@ export default function Navbar({ handleDrawerToggle }: Props) {
 
     return (
         <AppBar
-
             position="fixed"
             sx={{
                 width: { sm: `calc(100% - ${drawerWidth}px)` },

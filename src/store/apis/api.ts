@@ -111,22 +111,19 @@ const api = createApi({
           }
         },
       }),
-      getAllBookmarksForUser: builder.query<
-        IBookmark[] | PostgrestError,
-        string
-      >({
+      getAllBookmarksForUser: builder.query<IBookmark[], string>({
         providesTags: ["bookmark"],
         async queryFn(arg) {
           const { data, error } = await supabase
             .from("bookmark")
             .select("*")
             .eq("userId", arg);
-          if (data) {
-            const bookmarks: IBookmark[] = data as IBookmark[];
-            return { data: bookmarks };
-          } else {
-            return { error };
-          }
+          // if (data) {
+          const bookmarks: IBookmark[] = data as IBookmark[];
+          return { data: bookmarks };
+          // } else {
+          // return { error };
+          // }
         },
       }),
       getBookmarksByCollection: builder.query<any, string>({
