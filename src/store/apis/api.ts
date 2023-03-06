@@ -179,6 +179,7 @@ const api = createApi({
             .from("bookmark")
             .update({ isFavorite: !arg.isFavorite })
             .eq("bookmarkId", arg.bookmarkId)
+            .order("bookmarkId", { ascending: false })
             .select();
 
           return { data: true };

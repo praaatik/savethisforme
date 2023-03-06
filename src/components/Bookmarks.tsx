@@ -38,7 +38,7 @@ export default function Bookmarks() {
                 rowGap={4}
             >
                 {allMyBookmarks && allMyBookmarks.map((bookmark) => {
-                    return <BookmarkCard bookmarkURL={bookmark.bookmarkURL} key={bookmark.bookmarkId} />
+                    return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
                 })}
             </Grid>
         </div>

@@ -2,24 +2,27 @@ import { Card, CardContent, IconButton, Link, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import A from "../assets/alphabets/A.svg"
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import IBookmark from '../utils/interfaces/IBookmark.interface';
+import { useToggleFavoriteBookmarkMutation } from '../store';
 
-interface Props {
-    bookmarkURL: string
-}
+export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId }: IBookmark) {
+    const [toggleFavorite, _] = useToggleFavoriteBookmarkMutation()
 
-export default function BookmarkCard({ bookmarkURL }: Props) {
+    const handleOnToggleFavorite = () => {
+        toggleFavorite({ bookmarkId: bookmarkId.toString(), isFavorite })
 
-
+    }
     return (
         <Card variant="outlined">
             <CardContent className="flex justify-between gap-4">
                 <div className=" flex flex-col justify-around items-center">
                     <Link href={bookmarkURL} underline="hover" className="" >{bookmarkURL}</Link>
                     <div className="flex w-full justify-evenly ">
-                        <IconButton>
-                            <FavoriteBorderIcon className="cursor-pointer" />
+                        <IconButton onClick={handleOnToggleFavorite}>
+                            {isFavorite ? <FavoriteIcon className="cursor-pointer" /> : <FavoriteBorderIcon className="cursor-pointer" />}
                         </IconButton>
 
                         <IconButton>
