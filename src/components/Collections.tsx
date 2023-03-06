@@ -51,11 +51,11 @@ export default function Collections() {
 
             <List sx={{ position: "relative", height: "90vh", overflowY: "scroll" }}>
                 {isLoading && <CircularProgress />}
+                {collections?.length === 0 && <div>No collections found! Click above to add new</div>}
                 {collections && collections.map((collection) => (
                     <Collection collection={collection} collectionToDeleteSet={collectionToDeleteSet} handleDialogClickOpen={handleDialogClickOpen} key={collection.collectionId} />
 
                 ))}
-                <Logout />
             </List>
         </div>
     );

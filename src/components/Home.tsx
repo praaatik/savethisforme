@@ -16,12 +16,6 @@ export default function Home() {
 
     return (
         <div className="">
-            {/* <button onClick={handleOnDelete}>Delete!</button>
-            <button onClick={handleOnAdd}>Add new bookmark!</button>
-            <button onClick={handleOnUpdateURL}>Update bookmark URL</button>
-            <button onClick={handleOnUpdateTags}>Update bookmark tags</button>
-            <button onClick={handleUpdateBoth}>Update both</button>
-            <button onClick={handleToggle}>Toggle!</button> */}
             <Collections />
         </div>
     )
