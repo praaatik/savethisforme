@@ -17,12 +17,8 @@ interface Props {
 export default function Collection({ collectionToDeleteSet, handleDialogClickOpen, collection }: Props) {
     const [isCollectionEdit, isCollectionEditSet] = useState(false);
     const [collectionName, collectionNameSet] = useState(collection.collectionName)
-    const [skip, skipSet] = useState(true)
-
     const [updateCollectionName, _] = useUpdateCollectionNameMutation()
-    const { data } = useGetBookmarksByCollectionQuery(collection.collectionId, { skip })
-
-    const { currentCollectionId, currentCollectionIdSet } = useContext(CurrentBookmarkSetContext)
+    const { currentCollectionIdSet, toggleDisplayAllBookmarks } = useContext(CurrentBookmarkSetContext)
 
     const handleOnUpdate = () => {
         if (collectionName !== "") {
@@ -33,6 +29,7 @@ export default function Collection({ collectionToDeleteSet, handleDialogClickOpe
 
     const handleOnCollectionClick = () => {
         currentCollectionIdSet(collection.collectionId)
+        toggleDisplayAllBookmarks(false)
     }
 
     return !isCollectionEdit ? <ListItem key={collection.collectionId} divider sx={{ maxWidth: "20rem" }} onClick={handleOnCollectionClick}>

@@ -13,10 +13,11 @@ export default function Bookmarks() {
 
     const { data: allMyBookmarks, isLoading } = useGetAllBookmarksForUserQuery(userId)
     const [currentBookmarks, currentBookmarksSet] = useState<IBookmark[] | any[]>([]);
-    const { currentCollectionId, currentCollectionIdSet } = useContext(CurrentBookmarkSetContext)
+    const { currentCollectionId, displayAllBookmarks } = useContext(CurrentBookmarkSetContext)
+
+    const showAllBookmarks = false
 
     useEffect(() => {
-
         if (allMyBookmarks) {
             currentBookmarksSet(allMyBookmarks.filter(bookmark => {
                 return bookmark.collectionId === currentCollectionId
@@ -25,17 +26,13 @@ export default function Bookmarks() {
             currentBookmarksSet([])
         }
 
-    }, [currentCollectionId])
-
-    useEffect(() => {
-        console.log(currentBookmarks.length)
-    }, [currentBookmarks])
-
+    }, [currentCollectionId, allMyBookmarks])
 
     return (
         <div className="md:mt-10 mt-20">
-            {isLoading && <div className="items-center flex justify-center"><CircularProgress /></div>}
-            {allMyBookmarks === undefined || allMyBookmarks?.length === 0 && <h1 className="text-center">No bookmarks found!</h1>}
+            {isLoading && <div className="items-center flex justify-center w-full"><CircularProgress /></div>}
+            {(allMyBookmarks === null || allMyBookmarks === undefined || allMyBookmarks.length === 0) && (!isLoading) && <h1>No bookmarks found</h1>}
+            {(!displayAllBookmarks && currentBookmarks.length === 0) && <h1>No bookmarks found!</h1>}
             <Grid
                 container
                 direction="row"
@@ -44,14 +41,11 @@ export default function Bookmarks() {
                 columnGap={1}
                 rowGap={4}
             >{
-                    currentBookmarks.length === 0 ? (
-                        <div className="flex justify-center">
-                            <div>No bookmarks for this collection were found. Click on the above button to add new!</div>
-                        </div>
-                    )
-                        : currentBookmarks && currentBookmarks.map((bookmark) => {
-                            return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
-                        })
+                    !displayAllBookmarks ? (currentBookmarks && currentBookmarks.map((bookmark) => {
+                        return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
+                    })) : (allMyBookmarks && allMyBookmarks.map((bookmark) => {
+                        return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
+                    }))
                 }
 
             </Grid>
