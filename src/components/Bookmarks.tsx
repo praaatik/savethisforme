@@ -1,7 +1,5 @@
-import { Button, Card, CardActions, CardContent, CircularProgress, Grid, Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { CardContent, CircularProgress, Grid, Typography } from "@mui/material";
 import React from "react";
-import { useEffect } from "react";
 import useUserData from "../hooks/get-user";
 import { useGetAllBookmarksForUserQuery } from "../store";
 import BookmarkCard from "./BookmarkCard";
@@ -29,6 +27,7 @@ export default function Bookmarks() {
     return (
         <div className="md:mt-10 mt-20">
             {isLoading && <div className="items-center flex justify-center"><CircularProgress /></div>}
+            {allMyBookmarks === undefined || allMyBookmarks?.length === 0 && <h1 className="text-center">No bookmarks found!</h1>}
             <Grid
                 container
                 direction="row"
