@@ -22,23 +22,26 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
                     <div className="mb-4 sm:text-2xl text-xl">
                         <Link href={bookmarkURL} underline="hover" >{bookmarkURL}</Link>
                     </div>
-                    <Grid
-                        container
-                        xs
-                        zeroMinWidth
-                        direction="row"
-                        justifyContent="space-evenly"
-                        alignItems="center"
-                        spacing={0.5}
-                        rowGap={1}
-                    >
-                        {
-                            tags.length > 0 && tags.map(tag => {
-                                return <Chip label={`${tag}`} size="small" />
+                    {
+                        tags.length > 0 && <Grid
+                            container
+                            xs
+                            zeroMinWidth
+                            direction="row"
+                            justifyContent="space-evenly"
+                            alignItems="center"
+                            spacing={0.5}
+                            rowGap={1}
+                        >
+                            {
+                                tags.map(tag => {
+                                    return <Chip label={`${tag}`} size="small" />
 
-                            })
-                        }
-                    </Grid>
+                                })
+                            }
+                        </Grid>
+                    }
+
                     <div className="flex w-full justify-evenly ">
                         <IconButton onClick={handleOnToggleFavorite}>
                             {isFavorite ? <FavoriteIcon className="cursor-pointer" /> : <FavoriteBorderIcon className="cursor-pointer" />}
