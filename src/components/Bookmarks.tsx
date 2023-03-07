@@ -16,8 +16,7 @@ export default function Bookmarks() {
     const { currentCollectionId, currentCollectionIdSet } = useContext(CurrentBookmarkSetContext)
 
     useEffect(() => {
-        console.log(`Hello, I am from bookmarks and currentCollectionId has been uipdated!`)
-        console.log(currentCollectionId)
+
         if (allMyBookmarks) {
             currentBookmarksSet(allMyBookmarks.filter(bookmark => {
                 return bookmark.collectionId === currentCollectionId
@@ -27,6 +26,10 @@ export default function Bookmarks() {
         }
 
     }, [currentCollectionId])
+
+    useEffect(() => {
+        console.log(currentBookmarks.length)
+    }, [currentBookmarks])
 
 
     return (
@@ -41,12 +44,16 @@ export default function Bookmarks() {
                 columnGap={1}
                 rowGap={4}
             >{
-                    currentBookmarks.length === 0 ? allMyBookmarks && allMyBookmarks.map((bookmark) => {
-                        return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
-                    }) : currentBookmarks && currentBookmarks.map((bookmark) => {
-                        return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
-                    })
+                    currentBookmarks.length === 0 ? (
+                        <div className="flex justify-center">
+                            <div>No bookmarks for this collection were found. Click on the above button to add new!</div>
+                        </div>
+                    )
+                        : currentBookmarks && currentBookmarks.map((bookmark) => {
+                            return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
+                        })
                 }
+
             </Grid>
         </div>
     )

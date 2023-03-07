@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Divider, List, Typography, } from '@mui/material'
+import { Button, CircularProgress, Divider, List, ListItem, ListItemButton, ListItemText, Typography, } from '@mui/material'
 import { createContext, useEffect, useState } from 'react'
 import { useDeleteCollectionMutation, useGetCollectionsByUserQuery } from '../store'
 import useUserData from '../hooks/get-user'
@@ -14,7 +14,7 @@ export interface ICurrentBookmarkSetContext {
     currentCollectionIdSet: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const CurrentBookmarkSetContext = createContext<ICurrentBookmarkSetContext>({ currentCollectionId: -99, currentCollectionIdSet: () => { } })
+export const CurrentBookmarkSetContext = createContext<ICurrentBookmarkSetContext>({ currentCollectionId: -99, currentCollectionIdSet: () => { }, })
 
 export default function Collections() {
     const { user } = useUserData()
@@ -26,6 +26,7 @@ export default function Collections() {
     const [mobileOpen, mobileOpenSet] = useState(false);
     const [openDialog, openDialogSet] = useState(false);
     const [collectionToDelete, collectionToDeleteSet] = useState(-99)
+    const [displayAllBookmarks, toggleDisplayAllBookmarks] = useState(false)
 
     const [currentCollectionId, currentCollectionIdSet] = useState<number>(-99)
 
@@ -50,7 +51,6 @@ export default function Collections() {
     }
 
 
-
     const drawer = (
         <div className="text-center">
             <DeleteCollectionDialog handleDialogClickClose={handleDialogClickClose} openDialog={openDialog} />
@@ -62,6 +62,7 @@ export default function Collections() {
 
             <List sx={{ position: "relative", height: "90vh", overflowY: "scroll" }}>
                 {isLoading && <CircularProgress />}
+
                 {collections?.length === 0 && <div>No collections found! Click above to add new</div>}
                 {collections && collections.map((collection) => (
                     <Collection collection={collection} collectionToDeleteSet={collectionToDeleteSet} handleDialogClickOpen={handleDialogClickOpen} key={collection.collectionId} />
@@ -71,7 +72,7 @@ export default function Collections() {
     );
 
     return (
-        <CurrentBookmarkSetContext.Provider value={{ currentCollectionId, currentCollectionIdSet }}>
+        <CurrentBookmarkSetContext.Provider value={{ currentCollectionId, currentCollectionIdSet, }}>
             <div>
                 <Navbar handleDrawerToggle={handleDrawerToggle} />
                 <BoxComponent drawer={drawer} handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />

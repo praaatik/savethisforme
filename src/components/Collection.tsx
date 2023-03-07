@@ -32,7 +32,6 @@ export default function Collection({ collectionToDeleteSet, handleDialogClickOpe
     }
 
     const handleOnCollectionClick = () => {
-        console.log(`clicked! ${collection.collectionId}`)
         currentCollectionIdSet(collection.collectionId)
     }
 
