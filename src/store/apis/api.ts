@@ -13,6 +13,11 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_KEY
 );
 
+interface IGetBookmarksByCollectionResponse {
+  collectionName: string;
+  bookmark: IBookmark[];
+}
+
 const api = createApi({
   reducerPath: "data",
   baseQuery: fakeBaseQuery(),
@@ -109,33 +114,35 @@ const api = createApi({
           return { data: bookmarks };
         },
       }),
-      getBookmarksByCollection: builder.query<any, string>({
+      getBookmarksByCollection: builder.query<
+        IGetBookmarksByCollectionResponse | null,
+        number
+      >({
         providesTags: ["bookmark", "collection"],
         async queryFn(arg) {
           const { data, error } = await supabase
             .from("collection")
             .select(
               `
-          collectionId,
           collectionName,
           bookmark(
             bookmarkId,
             bookmarkURL,
             isFavorite,
-            tags
+            tags,
+            collectionId
           )
           `
             )
-            .eq("userId", arg);
+            .eq("collectionId", arg);
+          if (data) {
+            const response: IGetBookmarksByCollectionResponse =
+              data[0] as IGetBookmarksByCollectionResponse;
 
-          return { data };
-
-          // if (data) {
-          //   const bookmarks: IBookmark[] = data as IBookmark[];
-          //   return { data: bookmarks };
-          // } else {
-          //   return { error };
-          // }
+            return { data: response };
+          } else {
+            return { data: null };
+          }
         },
       }),
 

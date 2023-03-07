@@ -1,8 +1,10 @@
 import { CardContent, CircularProgress, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useUserData from "../hooks/get-user";
 import { useGetAllBookmarksForUserQuery } from "../store";
+import IBookmark from "../utils/interfaces/IBookmark.interface";
 import BookmarkCard from "./BookmarkCard";
+import { CurrentBookmarkSetContext } from "./Collections";
 
 
 export default function Bookmarks() {
@@ -10,19 +12,22 @@ export default function Bookmarks() {
     const userId = user ? user?.id : ""
 
     const { data: allMyBookmarks, isLoading } = useGetAllBookmarksForUserQuery(userId)
+    const [currentBookmarks, currentBookmarksSet] = useState<IBookmark[] | any[]>([]);
+    const { currentCollectionId, currentCollectionIdSet } = useContext(CurrentBookmarkSetContext)
 
-    const card = (bookmarkURL: string) => (
-        <React.Fragment>
-            <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    Bookmark
-                </Typography>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    {bookmarkURL}
-                </Typography>
-            </CardContent>
-        </React.Fragment>
-    );
+    useEffect(() => {
+        console.log(`Hello, I am from bookmarks and currentCollectionId has been uipdated!`)
+        console.log(currentCollectionId)
+        if (allMyBookmarks) {
+            currentBookmarksSet(allMyBookmarks.filter(bookmark => {
+                return bookmark.collectionId === currentCollectionId
+            }))
+        } else {
+            currentBookmarksSet([])
+        }
+
+    }, [currentCollectionId])
+
 
     return (
         <div className="md:mt-10 mt-20">
@@ -35,10 +40,13 @@ export default function Bookmarks() {
                 alignItems="center"
                 columnGap={1}
                 rowGap={4}
-            >
-                {allMyBookmarks && allMyBookmarks.map((bookmark) => {
-                    return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
-                })}
+            >{
+                    currentBookmarks.length === 0 ? allMyBookmarks && allMyBookmarks.map((bookmark) => {
+                        return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
+                    }) : currentBookmarks && currentBookmarks.map((bookmark) => {
+                        return <BookmarkCard bookmarkId={bookmark.bookmarkId} bookmarkURL={bookmark.bookmarkURL} collectionId={bookmark.collectionId} isFavorite={bookmark.isFavorite} tags={bookmark.tags} key={bookmark.bookmarkId} />
+                    })
+                }
             </Grid>
         </div>
     )

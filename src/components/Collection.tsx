@@ -1,11 +1,12 @@
 import { Button, ListItem, ListItemButton, ListItemText, TextField, Tooltip } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ICollection from '../utils/interfaces/ICollection.interface'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useUpdateCollectionNameMutation } from '../store';
+import { useGetBookmarksByCollectionQuery, useUpdateCollectionNameMutation } from '../store';
+import { CurrentBookmarkSetContext } from './Collections';
 
 interface Props {
     collectionToDeleteSet: (value: React.SetStateAction<number>) => void
@@ -16,7 +17,12 @@ interface Props {
 export default function Collection({ collectionToDeleteSet, handleDialogClickOpen, collection }: Props) {
     const [isCollectionEdit, isCollectionEditSet] = useState(false);
     const [collectionName, collectionNameSet] = useState(collection.collectionName)
+    const [skip, skipSet] = useState(true)
+
     const [updateCollectionName, _] = useUpdateCollectionNameMutation()
+    const { data } = useGetBookmarksByCollectionQuery(collection.collectionId, { skip })
+
+    const { currentCollectionId, currentCollectionIdSet } = useContext(CurrentBookmarkSetContext)
 
     const handleOnUpdate = () => {
         if (collectionName !== "") {
@@ -25,7 +31,12 @@ export default function Collection({ collectionToDeleteSet, handleDialogClickOpe
         }
     }
 
-    return !isCollectionEdit ? <ListItem key={collection.collectionId} divider sx={{ maxWidth: "20rem" }} >
+    const handleOnCollectionClick = () => {
+        console.log(`clicked! ${collection.collectionId}`)
+        currentCollectionIdSet(collection.collectionId)
+    }
+
+    return !isCollectionEdit ? <ListItem key={collection.collectionId} divider sx={{ maxWidth: "20rem" }} onClick={handleOnCollectionClick}>
         <ListItemButton sx={{ width: "10rem" }}>
             <ListItemText primary={collectionName} />
         </ListItemButton>
