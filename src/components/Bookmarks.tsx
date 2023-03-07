@@ -32,9 +32,9 @@ export default function Bookmarks() {
             <Grid
                 container
                 direction="row"
-                justifyContent="space-between"
+                justifyContent="space-around"
                 alignItems="center"
-                columnGap={4}
+                columnGap={1}
                 rowGap={4}
             >
                 {allMyBookmarks && allMyBookmarks.map((bookmark) => {

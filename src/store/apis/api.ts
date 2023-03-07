@@ -35,14 +35,13 @@ const api = createApi({
       getCollectionsByUser: builder.query<ICollection[], string>({
         providesTags: ["collection"],
         async queryFn(arg) {
+          console.log(`userId passed = ${arg}`);
           const { data, error } = await supabase
             .from("collection")
             .select("*")
             .eq("userId", arg);
-          // if (data) {
           const collections: ICollection[] = data as ICollection[];
           return { data: collections };
-          // }
         },
       }),
       updateCollectionName: builder.mutation<
@@ -98,32 +97,16 @@ const api = createApi({
           }
         },
       }),
-      getBookmarks: builder.query<IBookmark[] | PostgrestError, void>({
-        providesTags: ["bookmark"],
-        async queryFn(arg) {
-          const { data, error } = await supabase.from("bookmark").select();
-
-          if (data) {
-            const bookmarks: IBookmark[] = data as IBookmark[];
-            return { data: bookmarks };
-          } else {
-            return { error };
-          }
-        },
-      }),
       getAllBookmarksForUser: builder.query<IBookmark[], string>({
         providesTags: ["bookmark"],
         async queryFn(arg) {
           const { data, error } = await supabase
             .from("bookmark")
             .select("*")
-            .eq("userId", arg);
-          // if (data) {
+            .eq("userId", arg)
+            .order("bookmarkId", { ascending: false });
           const bookmarks: IBookmark[] = data as IBookmark[];
           return { data: bookmarks };
-          // } else {
-          // return { error };
-          // }
         },
       }),
       getBookmarksByCollection: builder.query<any, string>({
@@ -236,7 +219,7 @@ export const {
   useUpdateCollectionNameMutation,
   useDeleteCollectionMutation,
   useCreateCollectionMutation,
-  useGetBookmarksQuery,
+  // useGetBookmarksQuery,
   useGetAllBookmarksForUserQuery,
   useGetBookmarksByCollectionQuery,
   useDeleteBookmarkMutation,

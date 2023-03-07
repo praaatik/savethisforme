@@ -18,7 +18,7 @@ export {
   useUpdateCollectionNameMutation,
   useDeleteCollectionMutation,
   useCreateCollectionMutation,
-  useGetBookmarksQuery,
+  // useGetBookmarksQuery,
   useGetAllBookmarksForUserQuery,
   useGetBookmarksByCollectionQuery,
   useDeleteBookmarkMutation,
