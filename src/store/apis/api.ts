@@ -40,7 +40,6 @@ const api = createApi({
       getCollectionsByUser: builder.query<ICollection[], string>({
         providesTags: ["collection"],
         async queryFn(arg) {
-          console.log(`userId passed = ${arg}`);
           const { data, error } = await supabase
             .from("collection")
             .select("*")

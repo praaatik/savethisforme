@@ -16,7 +16,7 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
 
     }
     return (
-        <Card variant="outlined">
+        <Card variant="outlined" sx={{ width: "30rem", height: "10rem" }}>
             <CardContent className="flex justify-between gap-4">
                 <div className=" flex flex-col justify-around items-center">
                     <div className="mb-4 sm:text-2xl text-xl">

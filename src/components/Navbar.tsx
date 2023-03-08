@@ -14,13 +14,14 @@ export default function Navbar({ handleDrawerToggle }: Props) {
             sx={{
                 width: { sm: `calc(100% - ${drawerWidth}px)` },
                 ml: { sm: `${drawerWidth}px` },
-                bgcolor: "transparent",
+                bgcolor: "purple",
                 display: "flex",
                 justifyContent: "space-between",
                 alignContent: "center",
-                flexDirection: "row"
+                flexDirection: "row",
+                // marginBottom: "10rem",
             }}
-            className="h-20 border-white border-2"
+            className="h-20 border-white border-2 mb-20"
         >
             <div className="w-fit sm:hidden">
                 <MenuIcon onClick={handleDrawerToggle} fontSize="large" />

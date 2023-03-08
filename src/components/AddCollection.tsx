@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Tooltip, useMediaQuery, useTheme } from "@mui/material"
 import { useCreateCollectionMutation } from '../store';
@@ -39,12 +39,12 @@ export default function AddCollection({ userId }: Props) {
     return (
 
         <div className="mt-5">
-            <Tooltip title="Add new collection" placement='top'>
+            <Tooltip title="Add new collection " placement='top'>
                 <Button
-                    variant="outlined"
+                    variant="contained"
                     size="small"
                     onClick={handleClickOpen}
-                    color="success"
+                    color="primary"
                 >
                     <AddIcon fontSize="small" />
                 </Button>
