@@ -6,24 +6,25 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IBookmark from '../utils/interfaces/IBookmark.interface';
-import { useToggleFavoriteBookmarkMutation } from '../store';
+import { useDeleteBookmarkMutation, useToggleFavoriteBookmarkMutation } from '../store';
 
 export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags }: IBookmark) {
     const [toggleFavorite, _] = useToggleFavoriteBookmarkMutation()
+    const [deleteBookmark, result] = useDeleteBookmarkMutation()
 
     const handleOnToggleFavorite = () => {
         toggleFavorite({ bookmarkId: bookmarkId.toString(), isFavorite })
     }
 
-    useEffect(() => {
-        // console.log(tags)
-    }, [tags])
+    const handleOnDelete = () => {
+        deleteBookmark(bookmarkId)
+    }
 
     return (
         <Card variant="outlined" sx={{ width: { xs: "18em", md: "30em" }, overflowX: "scroll" }}>
             <CardContent className="flex justify-between gap-4">
                 <div className=" flex flex-col justify-center items-center text-center w-full ">
-                    <div className="mb-4 sm:text-2xl text-xl w-full">
+                    <div className="mb-4 sm:text-xl text-sm w-full">
                         <Link href={bookmarkURL} underline="hover" >{bookmarkURL}</Link>
                     </div>
                     {
@@ -34,7 +35,6 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
                             alignItems="center"
                             spacing={0.5}
                             rowGap={1}
-
                         >
                             {
                                 tags.map((tag, index) => {
@@ -54,7 +54,7 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
                             <EditIcon className="cursor-pointer" />
                         </IconButton>
 
-                        <IconButton>
+                        <IconButton onClick={handleOnDelete}>
                             <DeleteIcon className="cursor-pointer" />
                         </IconButton>
                     </div>
