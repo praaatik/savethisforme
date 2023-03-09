@@ -1,7 +1,7 @@
 import { CircularProgress, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import useUserData from "../hooks/get-user";
-import { useGetAllBookmarksForUserQuery } from "../store";
+import { useGetAllBookmarksForUserQuery, useGetCollectionsByUserQuery } from "../store";
 import IBookmark from "../utils/interfaces/IBookmark.interface";
 import AddBookmark from "./AddBookmark";
 import BookmarkCard from "./BookmarkCard";
@@ -12,7 +12,6 @@ export default function Bookmarks() {
     const userId = user ? user?.id : ""
 
     const { data: allMyBookmarks, isLoading, isFetching } = useGetAllBookmarksForUserQuery(userId)
-
 
     const [currentBookmarks, currentBookmarksSet] = useState<IBookmark[] | any[]>([]);
     const { currentCollectionId, displayAllBookmarks } = useContext(CurrentBookmarkSetContext)
@@ -38,9 +37,9 @@ export default function Bookmarks() {
     return (
         <div className="md:mt-0 mt-20 ">
             <AddBookmark tags={tags} userId={userId} />
-            {isLoading && <div className="items-center flex justify-center w-full"><CircularProgress /></div>}
-            {(allMyBookmarks === null || allMyBookmarks === undefined || allMyBookmarks.length === 0) && (!isFetching) && (!isLoading) && <h1>No bookmarks found</h1>}
-            {(!displayAllBookmarks && currentBookmarks.length === 0) && <h1>No bookmarks found!</h1>}
+            {(isLoading || isFetching) && <div className="items-center flex justify-center w-full"><CircularProgress /></div>}
+            {(allMyBookmarks === null || allMyBookmarks === undefined || allMyBookmarks.length === 0) && (!isFetching) && (!isLoading) && <div className="justify-center flex items-center"><h1>No bookmarks found</h1></div>}
+            {(!displayAllBookmarks && currentBookmarks.length === 0 && !isFetching && !isLoading) && <div className="justify-center flex items-center"><h1>No bookmarks found</h1></div>}
             <Grid
                 container
                 direction="row"

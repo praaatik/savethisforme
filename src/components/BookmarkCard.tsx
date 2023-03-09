@@ -45,7 +45,7 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
 
                     <div className="flex w-full justify-evenly">
                         <IconButton onClick={handleOnToggleFavorite}>
-                            {isFavorite ? <FavoriteIcon className="cursor-pointer" /> : <FavoriteBorderIcon className="cursor-pointer" />}
+                            {isFavorite ? <FavoriteIcon className="cursor-pointer" color='error' /> : <FavoriteBorderIcon className="cursor-pointer" />}
                         </IconButton>
 
                         <IconButton>

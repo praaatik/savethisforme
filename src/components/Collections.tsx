@@ -70,9 +70,9 @@ export default function Collections() {
                     toggleDisplayAllBookmarks(true)
                     currentCollectionIdSet(-99)
                 }}>
-                    <ListItemButton sx={{ width: "10rem" }}>
+                    {collections && collections?.length !== 0 && < ListItemButton sx={{ width: "10rem" }}>
                         <ListItemText primary="show all bookmarks" />
-                    </ListItemButton>
+                    </ListItemButton>}
                 </ListItem>
                 {collections && collections.map((collection) => (
                     <Collection collection={collection} collectionToDeleteSet={collectionToDeleteSet} handleDialogClickOpen={handleDialogClickOpen} key={collection.collectionId} />

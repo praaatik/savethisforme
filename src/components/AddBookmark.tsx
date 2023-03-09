@@ -55,15 +55,19 @@ export default function AddBookmark({ tags }: Props) {
 
     return (
         <div className="flex justify-center items-center py-4 -mt-10">
-            <Tooltip title="Add new bookmark" placement="top">
-                <Button
-                    variant="contained"
-                    size="small"
-                    onClick={handleClickOpen}
-                    color="primary"
-                >
-                    <AddIcon fontSize="small" />
-                </Button>
+            <Tooltip title={(allMyCollections && allMyCollections.length === 0) ? "Please add at least one collection to start creating bookmarks" : "Click to add a new bookmark"} placement="top" >
+                <span>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        onClick={handleClickOpen}
+                        color="primary"
+                        disabled={allMyCollections && allMyCollections.length === 0}
+                    >
+
+                        <AddIcon fontSize="small" />
+                    </Button>
+                </span>
             </Tooltip>
             <Dialog
                 fullScreen={fullScreen}
