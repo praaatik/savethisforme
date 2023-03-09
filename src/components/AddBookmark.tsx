@@ -132,7 +132,7 @@ export default function AddBookmark({ tags }: Props) {
                         className=" w-full"
                     >
                         {allMyCollections !== undefined && allMyCollections !== null && allMyCollections.map(collection => {
-                            return <MenuItem value={collection.collectionId} sx={{ width: "full" }}>{collection.collectionName}</MenuItem>
+                            return <MenuItem value={collection.collectionId} sx={{ width: "full" }} key={collection.collectionId}>{collection.collectionName}</MenuItem>
                         })}
                     </Select>
                     {/* </div> */}

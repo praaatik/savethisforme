@@ -16,33 +16,34 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
 
     }
     return (
-        <Card variant="outlined" sx={{ width: { xs: "18em", md: "30em" }, height: "10rem", overflowX: "scroll" }}>
+        <Card variant="outlined" sx={{ width: { xs: "18em", md: "30em" }, overflowX: "scroll" }}>
             <CardContent className="flex justify-between gap-4">
-                <div className=" flex flex-col justify-around items-center">
-                    <div className="mb-4 sm:text-2xl text-xl">
+                <div className=" flex flex-col justify-center items-center text-center w-full ">
+                    <div className="mb-4 sm:text-2xl text-xl w-full">
                         <Link href={bookmarkURL} underline="hover" >{bookmarkURL}</Link>
                     </div>
                     {
                         tags.length > 0 && <Grid
                             container
-                            xs
-                            zeroMinWidth
+                            // xs
+                            // zeroMinWidth
                             direction="row"
                             justifyContent="space-evenly"
                             alignItems="center"
                             spacing={0.5}
                             rowGap={1}
+
                         >
                             {
-                                tags.map(tag => {
-                                    return <Chip label={`${tag}`} size="small" />
+                                tags.map((tag, index) => {
+                                    return <Chip label={`${tag}`} size="small" key={index} />
 
                                 })
                             }
                         </Grid>
                     }
 
-                    <div className="flex w-full justify-evenly ">
+                    <div className="flex w-full justify-evenly">
                         <IconButton onClick={handleOnToggleFavorite}>
                             {isFavorite ? <FavoriteIcon className="cursor-pointer" /> : <FavoriteBorderIcon className="cursor-pointer" />}
                         </IconButton>
