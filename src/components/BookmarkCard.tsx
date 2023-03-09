@@ -13,8 +13,12 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
 
     const handleOnToggleFavorite = () => {
         toggleFavorite({ bookmarkId: bookmarkId.toString(), isFavorite })
-
     }
+
+    useEffect(() => {
+        // console.log(tags)
+    }, [tags])
+
     return (
         <Card variant="outlined" sx={{ width: { xs: "18em", md: "30em" }, overflowX: "scroll" }}>
             <CardContent className="flex justify-between gap-4">
@@ -25,8 +29,6 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
                     {
                         tags.length > 0 && <Grid
                             container
-                            // xs
-                            // zeroMinWidth
                             direction="row"
                             justifyContent="space-evenly"
                             alignItems="center"

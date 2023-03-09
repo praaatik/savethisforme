@@ -106,7 +106,7 @@ export default function AddBookmark({ tags }: Props) {
                         options={Array.from(tags).map(tag => tag)}
                         freeSolo
                         onChange={(_, value) => {
-                            newBookmarkSet(prev => ({ ...prev, tags: [...prev.tags, ...value] }))
+                            newBookmarkSet(prev => ({ ...prev, tags: [...value] }))
                         }}
                         renderTags={(value: readonly string[], getTagProps: any) =>
                             value.map((option: string, index: number) => (

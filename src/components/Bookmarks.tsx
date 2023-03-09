@@ -34,6 +34,10 @@ export default function Bookmarks() {
         }
     }, [currentCollectionId, allMyBookmarks])
 
+    useEffect(() => {
+        // console.log(tags)
+    }, [tags])
+
     return (
         <div className="md:mt-0 mt-20 ">
             <AddBookmark tags={tags} userId={userId} />
