@@ -94,6 +94,7 @@ export default function AddBookmark({ tags }: Props) {
                         required
                         value={newBookmark.bookmarkURL}
                         onChange={(event) => newBookmarkSet(prev => ({ ...prev, bookmarkURL: event.target.value }))}
+                        sx={{ marginBottom: "2rem" }}
                     />
                     <Autocomplete
                         multiple
@@ -116,7 +117,9 @@ export default function AddBookmark({ tags }: Props) {
                                 placeholder="Add tags"
                             />
                         )}
+                        sx={{ marginBottom: "2rem" }}
                     />
+                    {/* <div className="border-2 border-black"> */}
                     <InputLabel id="collection-select-label">Collection</InputLabel>
                     <Select
                         labelId="collection-select-label"
@@ -126,11 +129,13 @@ export default function AddBookmark({ tags }: Props) {
                         onChange={(_, value: any) => {
                             newBookmarkSet(prev => ({ ...prev, collectionId: Number(value?.props.value) }))
                         }}
+                        className=" w-full"
                     >
                         {allMyCollections !== undefined && allMyCollections !== null && allMyCollections.map(collection => {
                             return <MenuItem value={collection.collectionId} sx={{ width: "full" }}>{collection.collectionName}</MenuItem>
                         })}
                     </Select>
+                    {/* </div> */}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => { handleClose(true) }} variant="contained" disabled={newBookmark.bookmarkURL === "" || (newBookmark.collectionId === -99 && currentCollectionId === -99)}>Add</Button>

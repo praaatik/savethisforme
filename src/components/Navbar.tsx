@@ -14,12 +14,11 @@ export default function Navbar({ handleDrawerToggle }: Props) {
             sx={{
                 width: { sm: `calc(100% - ${drawerWidth}px)` },
                 ml: { sm: `${drawerWidth}px` },
-                bgcolor: "purple",
+                bgcolor: "black",
                 display: "flex",
                 justifyContent: "space-between",
                 alignContent: "center",
                 flexDirection: "row",
-                // marginBottom: "10rem",
             }}
             className="h-20 border-white border-2 mb-20"
         >
