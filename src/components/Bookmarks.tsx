@@ -36,7 +36,7 @@ export default function Bookmarks() {
     }, [currentCollectionId, allMyBookmarks])
 
     return (
-        <div className="md:mt-0 mt-20">
+        <div className="md:mt-0 mt-20 ">
             <AddBookmark tags={tags} userId={userId} />
             {isLoading && <div className="items-center flex justify-center w-full"><CircularProgress /></div>}
             {(allMyBookmarks === null || allMyBookmarks === undefined || allMyBookmarks.length === 0) && (!isLoading) && <h1>No bookmarks found</h1>}

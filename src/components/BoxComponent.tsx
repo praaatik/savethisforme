@@ -46,7 +46,7 @@ export default function BoxComponent({ mobileOpen, handleDrawerToggle, drawer }:
             </Box>
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)`, }, overflow: "scroll", height: "100vh", paddingTop: "10rem" }}
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)`, }, height: "100vh", paddingTop: "10rem" }}
             >
                 <Bookmarks />
             </Box>

@@ -1,38 +1,57 @@
 import { Autocomplete, Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, MenuItem, OutlinedInput, Select, TextField, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import AddIcon from "@mui/icons-material/Add";
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useCreateBookmarkMutation, useGetCollectionsByUserQuery } from '../store';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import IInsertBookmark from "../utils/interfaces/IInsertBookmark.interface"
+import useUserData from '../hooks/get-user';
+import { CurrentBookmarkSetContext } from "./Collections";
 
 interface Props {
     tags: Set<string>
     userId: string
 }
 
-export default function AddBookmark({ tags, userId }: Props) {
+export default function AddBookmark({ tags }: Props) {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+    const { user } = useUserData()
+    const userId = user ? user?.id : ""
+
     const { data: allMyCollections } = useGetCollectionsByUserQuery(userId)
     const [createBookmark, _] = useCreateBookmarkMutation()
+
+    const { currentCollectionId, displayAllBookmarks } = useContext(CurrentBookmarkSetContext)
 
     const [open, openSet] = useState(false);
 
     const handleClickOpen = () => {
         openSet(true);
     };
-    const initialNewBookmark: IInsertBookmark = { bookmarkURL: "", collectionId: -99, isFavorite: false, tags: [], userId }
+    const initialNewBookmark: IInsertBookmark = { bookmarkURL: "", collectionId: -99, isFavorite: false, tags: [], userId: userId }
     const [newBookmark, newBookmarkSet] = useState<IInsertBookmark>(initialNewBookmark)
 
     const handleClose = (addBookmark?: boolean) => {
-        if (addBookmark) {
+        if (addBookmark && userId !== "") {
             createBookmark(newBookmark)
             newBookmarkSet(initialNewBookmark)
         }
         openSet(false);
     };
+
+    useEffect(() => {
+        if (userId !== null || userId !== "") {
+            newBookmarkSet((prev) => ({ ...prev, userId: userId }))
+        }
+    }, [userId])
+
+    useEffect(() => {
+        if (currentCollectionId !== -99) {
+            newBookmarkSet((prev) => ({ ...prev, collectionId: currentCollectionId }))
+        }
+    }, [currentCollectionId])
 
     return (
         <div className="flex justify-center items-center py-4 -mt-10">
@@ -103,6 +122,7 @@ export default function AddBookmark({ tags, userId }: Props) {
                         labelId="collection-select-label"
                         id="collection-select"
                         label="Collection"
+                        defaultValue={currentCollectionId !== -99 ? currentCollectionId : 0}
                         onChange={(_, value: any) => {
                             newBookmarkSet(prev => ({ ...prev, collectionId: Number(value?.props.value) }))
                         }}
@@ -113,7 +133,7 @@ export default function AddBookmark({ tags, userId }: Props) {
                     </Select>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => { handleClose(true) }} variant="contained" disabled={newBookmark.bookmarkURL === "" || newBookmark.collectionId === -99}>Add</Button>
+                    <Button onClick={() => { handleClose(true) }} variant="contained" disabled={newBookmark.bookmarkURL === "" || (newBookmark.collectionId === -99 && currentCollectionId === -99)}>Add</Button>
                     <Button onClick={() => { handleClose(false) }} variant="contained" color="error">Cancel</Button>
                 </DialogActions>
             </Dialog>

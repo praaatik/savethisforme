@@ -66,7 +66,10 @@ export default function Collections() {
                 {isLoading && <CircularProgress />}
 
                 {collections?.length === 0 && <div>No collections found! Click above to add new</div>}
-                <ListItem divider sx={{ maxWidth: "20rem" }} onClick={() => { toggleDisplayAllBookmarks(true) }}>
+                <ListItem divider sx={{ maxWidth: "20rem" }} onClick={() => {
+                    toggleDisplayAllBookmarks(true)
+                    currentCollectionIdSet(-99)
+                }}>
                     <ListItemButton sx={{ width: "10rem" }}>
                         <ListItemText primary="show all bookmarks" />
                     </ListItemButton>
