@@ -7,6 +7,7 @@ import IInsertCollection from "../../utils/interfaces/IInsertCollection.interfac
 import IToggleBookmark from "../../utils/interfaces/IToggleBookmark.interface";
 import IUpdateBookmark from "../../utils/interfaces/IUpdateBookmark.interface";
 import IUpdateCollectionName from "../../utils/interfaces/IUpdateCollectionName.interface";
+import IAllTagsResponse from "../../utils/interfaces/IAllTagsResponse.interface";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -215,6 +216,32 @@ const api = createApi({
           return { data: null };
         },
       }),
+      updateBookmark: builder.mutation<null, IUpdateBookmark>({
+        invalidatesTags: ["bookmark"],
+        async queryFn(arg) {
+          await supabase
+            .from("bookmark")
+            .update({
+              tags: arg.tags,
+              bookmarkURL: arg.bookmarkURL,
+              collectionId: arg.collectionId,
+              isFavorite: arg.isFavorite,
+            })
+            .eq("bookmarkId", arg.bookmarkId);
+          return { data: null };
+        },
+      }),
+      getAllTagsByUser: builder.query<IAllTagsResponse[], string>({
+        async queryFn(arg) {
+          const { data, error } = await supabase
+            .from("bookmark")
+            .select(`tags`)
+            .eq("userId", arg);
+
+          const response: IAllTagsResponse[] = data as IAllTagsResponse[];
+          return { data: response };
+        },
+      }),
     };
   },
 });
@@ -232,5 +259,7 @@ export const {
   useToggleFavoriteBookmarkMutation,
   useCreateBookmarkMutation,
   useUpdateBookmarkTagsMutation,
+  useGetAllTagsByUserQuery,
+  useUpdateBookmarkMutation,
 } = api;
 export { api };

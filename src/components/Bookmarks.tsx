@@ -1,11 +1,12 @@
 import { CircularProgress, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import useUserData from "../hooks/get-user";
-import { useGetAllBookmarksForUserQuery, useGetCollectionsByUserQuery } from "../store";
+import { useGetAllBookmarksForUserQuery } from "../store";
 import IBookmark from "../utils/interfaces/IBookmark.interface";
 import AddBookmark from "./AddBookmark";
 import BookmarkCard from "./BookmarkCard";
 import { CurrentBookmarkSetContext } from "./Collections";
+
 
 export default function Bookmarks() {
     const { user } = useUserData()
@@ -33,10 +34,6 @@ export default function Bookmarks() {
             currentBookmarksSet([])
         }
     }, [currentCollectionId, allMyBookmarks])
-
-    useEffect(() => {
-        // console.log(tags)
-    }, [tags])
 
     return (
         <div className="md:mt-0 mt-20 ">

@@ -25,4 +25,6 @@ export {
   useToggleFavoriteBookmarkMutation,
   useCreateBookmarkMutation,
   useUpdateBookmarkTagsMutation,
+  useGetAllTagsByUserQuery,
+  useUpdateBookmarkMutation,
 } from "./apis/api";
