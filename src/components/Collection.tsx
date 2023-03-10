@@ -42,7 +42,7 @@ export default function Collection({ collectionToDeleteSet, handleDialogClickOpe
             </ListItemText>
         </Tooltip>
     </ListItem > : <ListItem key={collection.collectionId} divider sx={{ maxWidth: "20rem", display: "flex", justifyContent: "space-evenly" }} >
-        <TextField value={collectionName} onChange={(event) => collectionNameSet(event.target.value)} />
+        <TextField value={collectionName} onChange={(event) => collectionNameSet(event.target.value)} variant="outlined" />
         <ListItemButton sx={{ display: "flex", justifyContent: "center", }} onClick={handleOnUpdate}>
             <CheckIcon className="cursor-pointer" color='success' />
         </ListItemButton>

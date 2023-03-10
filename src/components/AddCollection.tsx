@@ -44,7 +44,7 @@ export default function AddCollection({ userId }: Props) {
                     variant="contained"
                     size="small"
                     onClick={handleClickOpen}
-                    color="primary"
+                    sx={[{ backgroundColor: "black" }, { '&:hover': { backgroundColor: "black" } }]}
                 >
                     <AddIcon fontSize="small" />
                 </Button>
@@ -64,7 +64,7 @@ export default function AddCollection({ userId }: Props) {
                         label="Collection Name"
                         type="text"
                         fullWidth
-                        variant="standard"
+                        variant="outlined"
                         required
                         value={newCollectionName}
                         onChange={(event) => newCollectionNameSet(event.target.value)}

@@ -71,7 +71,7 @@ export default function Collections() {
                     currentCollectionIdSet(-99)
                 }}>
                     {collections && collections?.length !== 0 && < ListItemButton sx={{ width: "10rem" }}>
-                        <ListItemText primary="show all bookmarks" />
+                        <ListItemText primary="Show all bookmarks" />
                     </ListItemButton>}
                 </ListItem>
                 {collections && collections.map((collection) => (
@@ -84,7 +84,7 @@ export default function Collections() {
     return (
         <CurrentBookmarkSetContext.Provider value={{ currentCollectionId, currentCollectionIdSet, displayAllBookmarks, toggleDisplayAllBookmarks }}>
             <div>
-                <Navbar handleDrawerToggle={handleDrawerToggle} />
+                <Navbar handleDrawerToggle={handleDrawerToggle} isFull={false} />
                 <BoxComponent drawer={drawer} handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
             </div>
         </CurrentBookmarkSetContext.Provider >

@@ -3,16 +3,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Logout from "./Logout";
 
 interface Props {
-    handleDrawerToggle: () => void
+    handleDrawerToggle?: () => void
+    isFull?: boolean
 }
-export default function Navbar({ handleDrawerToggle }: Props) {
+export default function Navbar({ handleDrawerToggle, isFull }: Props) {
     const drawerWidth = 330;
 
     return (
         <AppBar
             position="fixed"
             sx={{
-                width: { sm: `calc(100% - ${drawerWidth}px)` },
+                width: { sm: isFull ? "100%" : `calc(100% - ${drawerWidth}px)` },
                 ml: { sm: `${drawerWidth}px` },
                 bgcolor: "white",
                 display: "flex",
@@ -27,9 +28,9 @@ export default function Navbar({ handleDrawerToggle }: Props) {
             </div>
             <div className=" flex items-center justify-between w-full px-5">
                 <div className=" flex items-center w-full text-black">Save this for me</div>
-                <div className="flex items-center justify-center flex-col">
+                {!isFull && <div className="flex items-center justify-center flex-col">
                     <Logout />
-                </div>
+                </div>}
             </div>
         </AppBar>
     )

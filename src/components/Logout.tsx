@@ -13,7 +13,7 @@ export default function Logout() {
 
     return (
         <Tooltip title="Logout" placement="top">
-            <Button variant="contained" sx={{ bottom: 0, position: "sticky", margin: "auto", marginTop: "3%", }} onClick={handleOnClick} >
+            <Button variant="contained" sx={[{ bottom: 0, position: "sticky", margin: "auto", marginTop: "3%", backgroundColor: "black" }, { '&:hover': { backgroundColor: "black" } }]} onClick={handleOnClick} >
                 <LogoutOutlined />
             </Button>
         </Tooltip>

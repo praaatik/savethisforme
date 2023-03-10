@@ -61,7 +61,7 @@ export default function AddBookmark({ tags }: Props) {
                         variant="contained"
                         size="small"
                         onClick={handleClickOpen}
-                        color="primary"
+                        sx={[{ backgroundColor: "black" }, { '&:hover': { backgroundColor: "black" } }]}
                         disabled={allMyCollections && allMyCollections.length === 0}
                     >
 
@@ -94,7 +94,7 @@ export default function AddBookmark({ tags }: Props) {
                         label="URL"
                         type="text"
                         fullWidth
-                        variant="standard"
+                        variant="outlined"
                         required
                         value={newBookmark.bookmarkURL}
                         onChange={(event) => newBookmarkSet(prev => ({ ...prev, bookmarkURL: event.target.value }))}
@@ -116,7 +116,7 @@ export default function AddBookmark({ tags }: Props) {
                         renderInput={(params: any) => (
                             <TextField
                                 {...params}
-                                variant="filled"
+                                variant="outlined"
                                 label="Tags"
                                 placeholder="Add tags"
                             />
