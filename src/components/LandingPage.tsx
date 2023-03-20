@@ -2,6 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import Navbar from './Navbar';
+import BookmarkIcon from "../assets/bookmark-icon.svg"
 
 const LandingPage = () => {
     return (
