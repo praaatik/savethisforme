@@ -1,6 +1,6 @@
 import { CircularProgress, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import useUserData from "../hooks/get-user";
+import useUserData from "../hooks/useUserData";
 import { useGetAllBookmarksForUserQuery } from "../store";
 import IBookmark from "../utils/interfaces/IBookmark.interface";
 import AddBookmark from "./AddBookmark";

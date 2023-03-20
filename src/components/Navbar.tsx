@@ -21,7 +21,7 @@ export default function Navbar({ handleDrawerToggle, isFull }: Props) {
                 alignContent: "center",
                 flexDirection: "row",
             }}
-            className="h-20  mb-20"
+            className="h-20 mb-20"
         >
             <div className="w-fit sm:hidden">
                 <MenuIcon onClick={handleDrawerToggle} fontSize="large" />

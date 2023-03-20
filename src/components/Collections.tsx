@@ -1,7 +1,7 @@
 import { CircularProgress, Divider, List, ListItem, ListItemButton, ListItemText, Typography, } from '@mui/material'
 import { createContext, useState } from 'react'
 import { useDeleteCollectionMutation, useGetCollectionsByUserQuery } from '../store'
-import useUserData from '../hooks/get-user'
+import useUserData from '../hooks/useUserData'
 import Collection from './Collection';
 import DeleteCollectionDialog from './DeleteCollectionDialog';
 import Navbar from './Navbar';

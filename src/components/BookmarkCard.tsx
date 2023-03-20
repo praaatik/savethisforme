@@ -33,7 +33,7 @@ export default function BookmarkCard({ bookmarkURL, isFavorite, bookmarkId, tags
                 <CardContent className="flex justify-between gap-4">
                     <div className=" flex flex-col justify-center items-center text-center w-full ">
                         <div className="mb-4 sm:text-xl text-sm w-full">
-                            <Link href={bookmarkURL} underline="hover" >{bookmarkURL}</Link>
+                            <Link href={bookmarkURL} underline="hover" target="_blank" rel="noopener">{bookmarkURL}</Link>
                         </div>
                         {
                             tags.length > 0 && <Grid

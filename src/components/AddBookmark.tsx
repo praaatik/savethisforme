@@ -5,7 +5,7 @@ import { useCreateBookmarkMutation, useGetCollectionsByUserQuery } from '../stor
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import IInsertBookmark from "../utils/interfaces/IInsertBookmark.interface"
-import useUserData from '../hooks/get-user';
+import useUserData from '../hooks/useUserData';
 import { CurrentBookmarkSetContext } from "./Collections";
 
 interface Props {
@@ -61,7 +61,7 @@ export default function AddBookmark({ tags }: Props) {
                         variant="contained"
                         size="small"
                         onClick={handleClickOpen}
-                        sx={[{ backgroundColor: "black" }, { '&:hover': { backgroundColor: "black" } }]}
+                        sx={[{ backgroundColor: "#2d3748" }, { '&:hover': { backgroundColor: "black" } }]}
                         disabled={allMyCollections && allMyCollections.length === 0}
                     >
 

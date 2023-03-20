@@ -3,7 +3,7 @@ import { useContext, useState } from 'react'
 import { useGetCollectionsByUserQuery, useUpdateBookmarkMutation } from '../store';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
-import useUserData from '../hooks/get-user';
+import useUserData from '../hooks/useUserData';
 import { CurrentBookmarkSetContext } from "./Collections";
 import IBookmark from '../utils/interfaces/IBookmark.interface';
 import EditIcon from '@mui/icons-material/Edit';

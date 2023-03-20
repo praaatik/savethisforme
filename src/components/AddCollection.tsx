@@ -44,7 +44,7 @@ export default function AddCollection({ userId }: Props) {
                     variant="contained"
                     size="small"
                     onClick={handleClickOpen}
-                    sx={[{ backgroundColor: "black" }, { '&:hover': { backgroundColor: "black" } }]}
+                    sx={[{ backgroundColor: "#2d3748" }, { '&:hover': { backgroundColor: "black" } }]}
                 >
                     <AddIcon fontSize="small" />
                 </Button>
