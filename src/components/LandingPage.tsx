@@ -29,10 +29,6 @@ const LandingPage = () => {
         if (user?.aud === "authenticated") {
             navigate("/home")
         }
-
-        if (error) {
-            navigate("/login")
-        }
     }, [user, error])
 
     return (
