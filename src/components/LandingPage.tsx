@@ -1,10 +1,40 @@
 import { Button, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import Navbar from './Navbar';
-import BookmarkIcon from "../assets/bookmark-icon.svg"
+import { useEffect, useState } from 'react';
+import useUserData from '../hooks/useUserData';
+import { supabase } from "../utils/supabaseClient";
+import { AuthError, User, UserResponse } from "@supabase/supabase-js";
 
 const LandingPage = () => {
+    const navigate = useNavigate()
+
+    const [user, userSet] = useState<User | null>(null)
+    const [error, errorSet] = useState<AuthError | null>(null)
+
+    useEffect(() => {
+        async function getData() {
+            const data = await supabase.auth.getUser();
+            if (data?.data?.user) {
+                userSet(data.data.user)
+            } else {
+                errorSet(data.error)
+            }
+        }
+        getData()
+    }, [])
+
+    useEffect(() => {
+        if (user?.aud === "authenticated") {
+            navigate("/home")
+        }
+
+        if (error) {
+            navigate("/login")
+        }
+    }, [user, error])
+
     return (
         <div>
             <Navbar isFull={true} />
